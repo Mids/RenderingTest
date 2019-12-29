@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
 public class FileParser : MonoBehaviour
 {
-	public TextAsset VertexFile;
-	public TextAsset FaceFile;
-
 	private StreamReader _vertexReader;
+	public TextAsset FaceFile;
 	public int vectexCount;
+	public TextAsset VertexFile;
 
 	private void Start()
 	{
@@ -23,12 +20,14 @@ public class FileParser : MonoBehaviour
 
 	public Vector3[] GetVertices()
 	{
+		if (_vertexReader.EndOfStream) return null;
+
 		var vertices = new Vector3[vectexCount];
 
-		for (int i = 0; i < vectexCount; i++)
+		for (var i = 0; i < vectexCount; i++)
 		{
-			string line = _vertexReader.ReadLine();
-			string[] bits = line?.Split('\t');
+			var line = _vertexReader.ReadLine();
+			var bits = line?.Split('\t');
 			if (bits == null)
 			{
 				print("bits is null in faceData.");
@@ -50,17 +49,17 @@ public class FileParser : MonoBehaviour
 
 	public int[] GetFacet()
 	{
-		StreamReader faceReader = new StreamReader(new MemoryStream(FaceFile.bytes));
-		int count = Convert.ToInt32(faceReader.ReadLine());
+		var faceReader = new StreamReader(new MemoryStream(FaceFile.bytes));
+		var count = Convert.ToInt32(faceReader.ReadLine());
 
 		print($"face count : {count}");
 
 		var facet = new int[count * 3];
 
-		for (int i = 0; i < count; i++)
+		for (var i = 0; i < count; i++)
 		{
-			string line = faceReader.ReadLine();
-			string[] bits = line?.Split('\t');
+			var line = faceReader.ReadLine();
+			var bits = line?.Split('\t');
 			if (bits == null)
 			{
 				print("bits is null in faceData.");
@@ -73,10 +72,7 @@ public class FileParser : MonoBehaviour
 				break;
 			}
 
-			for (int j = 0; j < 3; j++)
-			{
-				facet[i * 3 + j] = Convert.ToInt32(bits[j]);
-			}
+			for (var j = 0; j < 3; j++) facet[i * 3 + j] = Convert.ToInt32(bits[j]);
 		}
 
 		faceReader.Close();

@@ -1,22 +1,19 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class FaceModel : MonoBehaviour
 {
-
-	private Vector3[] _vertexList;
-
 	private int[] _faceList;
-
-	private Mesh _mesh;
 
 	private FileParser _fileParser;
 
+	private Mesh _mesh;
+
 	private MeshFilter _meshFilter;
-	
+	private Vector3[] _vertexList;
+
 	// Use this for initialization
-	void Start ()
+	private void Start()
 	{
 		_fileParser = GetComponent<FileParser>();
 		_meshFilter = GetComponent<MeshFilter>();
@@ -24,7 +21,7 @@ public class FaceModel : MonoBehaviour
 		StartCoroutine(LoadFace());
 	}
 
-	IEnumerator LoadFace()
+	private IEnumerator LoadFace()
 	{
 		_vertexList = _fileParser.GetVertices();
 		_faceList = _fileParser.GetFacet();
@@ -34,15 +31,18 @@ public class FaceModel : MonoBehaviour
 		_mesh.name = "Face";
 		_mesh.vertices = _vertexList;
 		_mesh.triangles = _faceList;
-		
+
 		_mesh.RecalculateNormals();
-		
+
 		print("Load Face Done");
 		yield break;
 	}
-	
+
 	// Update is called once per frame
-	void Update () {
-		
+	private void Update()
+	{
+		var temp = _fileParser.GetVertices();
+		if (temp != null)
+			_mesh.vertices = temp;
 	}
 }
