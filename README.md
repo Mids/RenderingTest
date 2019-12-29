@@ -1,6 +1,7 @@
-##Rendering face test
+## Rendering face test
 
-####Environment
+#### Environment
+
 - OS : Ubuntu 16.04 LTS
 - Unity : 2018.2.7f1
 - Script Editor : Rider 2019 3.1
